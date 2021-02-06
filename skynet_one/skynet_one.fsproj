@@ -1,12 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
+    <Compile Include="Shared.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="GraphStructureAdapters.fs" />
+    <Compile Include="GraphAcquistion.fs" />
+    <Compile Include="EdgeListGraphTools.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
 </Project>
