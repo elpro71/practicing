@@ -43,9 +43,12 @@ let bf graph p =
             | _ -> yield! [] }
     bF (Path.create p) 0
 
-let shortPaths graph origin dest = 
-    let s =
+let shortestPath graph origin dest = 
+    let bfComputation =
         bf graph origin
+        |> Seq.pairwise
+        |> Seq.takeWhile (fun t -> (fst t).Node = dest |> not)
+        |> Seq.map snd
         |> Seq.toList
 
     let getParent n = 
@@ -53,13 +56,16 @@ let shortPaths graph origin dest =
             node = n
         List.tryFind checkParent 
 
-    let buildPath dest = 
-        let aggregate some =
-            match some with
-            | Some { Node = n ; Parents = (p::_) } -> getParent p s |> Option.map (fun pp -> n, Some pp)
-            | _ -> None
-        List.unfold aggregate (getParent dest s)
+    let aggregate some =
+        match some with
+        | Some { Node = n ; Parents = (p::_) } -> getParent p bfComputation |> Option.map (fun pp -> n, Some pp)
+        | _ -> None
+    List.unfold aggregate (getParent dest bfComputation)
+    
+let allShortestPath graph origin dest = 
+    let bfComputation =  bf graph origin |> Seq.toList
 
-    buildPath dest
+
+    ()
 
 
