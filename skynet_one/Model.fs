@@ -4,7 +4,14 @@ open Shared
 type Edge = Edge of (int * int)
 module Edge = let unwrap (Edge c) = c
 
+type DirtyG = DirtyG of Edge list
 type G = G of Edge list
+
+type GraphType = 
+    | FreeForm
+    | DAG
+type CleanEdgeList = DirtyG -> G
+
 
 type NodeAdjacency = NodeAdjacency of int list
 module NodeAdjacency = let unwrap (NodeAdjacency x) = x
@@ -38,8 +45,8 @@ let (|AsAdjGraph|) (G edges) =
         let update (Edge (o, d)) (Graph nodes) =
             nodes 
             |> List.mapi (fun i node -> 
-                if i = o then node |> NodeAdjacency.unwrap |> ((@) [d]) |> NodeAdjacency
-                else if i = d then nodes.[d] |> NodeAdjacency.unwrap |> ((@) [o]) |> NodeAdjacency
+                if i = o then node |> NodeAdjacency.unwrap |> ((@) [d]) |> List.distinct |> NodeAdjacency
+                else if i = d then nodes.[d] |> NodeAdjacency.unwrap |> ((@) [o]) |> List.distinct |> NodeAdjacency
                 else node)
         update edge graph
         |> Graph
