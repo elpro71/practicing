@@ -6,7 +6,20 @@ let flip f a b = f b a
 
 type Reader<'environment,'a> = Reader of ('environment -> 'a)
 
+type Queue<'a> = 
+    { List : list<'a>
+      Last  : 'a option }
 
+module Queue =
+    let enqueue a { List = l ; Last = optiona } =
+        { List = optiona |> Option.map (List.singleton >> ((@) l))  |> Option.defaultValue l
+          Last = Some a }
+    let dequeue =
+        function
+        | { List = [] ; Last = None } -> None
+        | { List = [] ; Last = Some x } -> Some (x, { List = [] ; Last = None })
+        | { List = h::tail; Last = last } -> Some (h, { List = tail; Last = last })
+    
 
 module Reader = 
 
