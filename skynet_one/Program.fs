@@ -27,12 +27,16 @@ let nicePrint pr =
 [<EntryPoint>]
 let main argv =
 
-    let t = TestData.getDirtyGraph 1 
-    let grid = TestData.makeGrid 10
-    let myG = init() 
-    ()
+    printfn "%A" argv
 
-//     bf myGraph 0 
-//     |> Seq.toList
-//     |> Seq.iter nicePrint
-    0 // return an integer exit code
+    Console.WriteLine($"{DateTime.Now} : Building grid")
+    let t = TestData.makeGrid (if Array.isEmpty argv then 10000 else int(argv.[0])) 
+    
+    Console.WriteLine($"{DateTime.Now} : starting")
+    let grid = TestData.makeGrid 1000
+    Console.WriteLine($"{DateTime.Now} : constructed")
+    let tr = asGraph grid
+    Console.WriteLine($"{DateTime.Now} : constructed")
+    let e = asAdjList tr
+    Console.WriteLine($"{DateTime.Now} : constructed")
+    0

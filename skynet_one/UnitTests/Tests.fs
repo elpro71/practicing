@@ -10,23 +10,15 @@ open Acquisition
 open Swensen.Unquote
 
 
-
 type GraphGenerators =
   static member G() =
       {   new Arbitrary<G>() with
             override x.Generator = 
               gen {
                   //return TestData.getDirtyGraph 0 |> G.create
-                  return TestData.makeGrid 2 
+                  return TestData.makeGrid 10000 
               }  }
 
-
-let gen4G =   
-    gen {
-      Console.WriteLine("calling generator... ")
-      return TestData.getDirtyGraph 0 |> G.create } 
-
-type Marker = class end
 
 [<Property(Arbitrary = [|typeof<GraphGenerators> |])>]
 let ``test cyclic transformation is noop`` expectedEdges =
