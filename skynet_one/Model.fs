@@ -1,16 +1,34 @@
 module GraphModel
 open Shared
 
-type Edge = Edge of (int * int)
+open System.Runtime.CompilerServices
+[<assembly:InternalsVisibleTo("UnitTests")>]
+do ()
+
+type Edge = internal Edge of (int * int)
 module Edge = let unwrap (Edge c) = c
-
+    
 type DirtyG = DirtyG of Edge list
-type G = G of Edge list
-
 type GraphType = 
     | FreeForm
     | DAG
+
+type G = internal G of Edge list
 type CleanEdgeList = DirtyG -> G
+
+module G =
+    let private cleanUpImp requestedType (DirtyG edges) =
+        match requestedType with
+        | DAG -> edges |> List.distinct |> G
+        | FreeForm -> 
+            let reverse (Edge edge) = (snd edge, fst edge)|> Edge
+            edges @  (edges |> List.map reverse) 
+            |> List.distinct 
+            |> List.sort 
+            |> G    
+
+    let create : CleanEdgeList = cleanUpImp FreeForm
+
 
 
 type NodeAdjacency = NodeAdjacency of int list
