@@ -4,7 +4,6 @@ open System
 open Shared
 open GraphModel
 open EdgeListTools
-
 open Acquisition
 open GraphAdapters
 
@@ -14,12 +13,9 @@ let init () =
     let gr =
         read readNbrEdge readEdge
         |> Reader.run TestScenario2     
-        |> cleanUp
+        |> G.create
 
-    let asGraph = function | AsAdjGraph g -> g
-    let asAdjList = function | AsAdjList g -> g
     asGraph gr
-
 
 let nicePrint pr =
     printfn "Node %i" pr.Node
@@ -31,11 +27,9 @@ let nicePrint pr =
 [<EntryPoint>]
 let main argv =
 
-    let grid = TestData.makeGrid 10 |> Seq.toList 
-
-
+    let t = TestData.getDirtyGraph 1 
+    let grid = TestData.makeGrid 10
     let myG = init() 
-
     ()
 
 //     bf myGraph 0 

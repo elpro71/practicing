@@ -10,4 +10,8 @@ let (|AsAdjList|) graph =
     |> Graph.unwrap 
     |> List.mapi makeEdgeList
     |> List.concat
-    |> G
+    |> DirtyG
+    |> G.create
+
+let asGraph = function | AsAdjGraph g -> g
+let asAdjList = function | AsAdjList g -> g    
