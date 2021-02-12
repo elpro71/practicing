@@ -64,7 +64,7 @@ let (|AsAdjGraph|) (G edges) =
             nodes 
             |> List.mapi (fun i node -> 
                 if i = o then node |> NodeAdjacency.unwrap |> ((@) [d]) |> List.distinct |> NodeAdjacency
-                else if i = d then nodes.[d] |> NodeAdjacency.unwrap |> ((@) [o]) |> List.distinct |> NodeAdjacency
+                else if i = d then node |> NodeAdjacency.unwrap |> ((@) [o]) |> List.distinct |> NodeAdjacency
                 else node)
         update edge graph
         |> Graph
