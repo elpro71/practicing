@@ -39,11 +39,22 @@ module TestData =
         let queue = { List = [ (0, 1) ] ; Last = Some ( 0, 2 ) }
         Seq.unfold unfold queue
         |> Seq.take n
+        |> Seq.map Edge
+        |> Seq.toList
+        |> DirtyG
+        |> G.create
 
 
     let graphs = 
         [   [ (0,1); (0,2);(1,3); (2,4); (2,5); (3,6); (4,7); (5, 7); (6,8); (7, 8) ]
-            [ (0, 1); (0, 2); (1, 2); (1, 3) ]  ]
+            [ (0, 1); (0, 2); (1, 2); (1, 3) ]  
+            [ (0, 1); (0, 2); (1, 2); (1, 3) ] ]
+
+    let getDirtyGraph x = 
+        graphs
+        |> List.item x 
+        |> List.map Edge
+        |> DirtyG
              
 let readNbrEdge = 
         function 
@@ -75,11 +86,3 @@ let readEdge =
             | _ -> failwith " wrong ! wrong! wrong ! try again"
     |> Reader
 
-let private cleanUpImp requestedType (DirtyG edges) =
-    match requestedType with
-    | DAG -> edges |> List.distinct |> G
-    | FreeForm -> 
-        let reverse (Edge edge) = (snd edge, fst edge)|> Edge
-        edges @  (edges |> List.map reverse) |> List.distinct |> G
-    
-let cleanUp : CleanEdgeList = cleanUpImp FreeForm
