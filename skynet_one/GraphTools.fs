@@ -1,5 +1,6 @@
 module EdgeListTools
 
+open Shared
 open GraphModel
 type PathResult =
     { Node : int 
@@ -43,9 +44,33 @@ let bf graph p =
             | _ -> yield! [] }
     bF (Path.create p) 0
 
+
+let bfEdges g p =
+    let rec bF buf beginOfq  g =
+        seq {
+            let sbuf = Path.skip beginOfq buf
+            match sbuf with
+            | Path (c::_) -> 
+                yield c
+                let (edges, g') = G.extractEdges p g
+                let children = List.collect (Edge.unwrap >> tupleToList) edges |> List.distinct                
+                let cpath = children |> List.map (PathResult.createChild c)
+                yield! bF (merge buf cpath) (beginOfq+1) g'
+            | _ -> yield! [] }
+    bF (Path.create p) 0 g
+
+
 let shortestPath graph origin dest = 
     let bfComputation =
-        bf graph origin
+        bfEdges graph origin
+        |> Seq.pairwise
+
+    bfComputation
+
+
+let shortestPathx graph origin dest = 
+    let bfComputation =
+        bfEdges graph origin
         |> Seq.pairwise
         |> Seq.takeWhile (fun t -> (fst t).Node = dest |> not)
         |> Seq.map snd
@@ -62,10 +87,5 @@ let shortestPath graph origin dest =
         | _ -> None
     List.unfold aggregate (getParent dest bfComputation)
     
-let allShortestPath graph origin dest = 
-    let bfComputation =  bf graph origin |> Seq.toList
-
-
-    ()
 
 

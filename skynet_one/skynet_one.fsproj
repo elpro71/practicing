@@ -8,7 +8,7 @@
     <Compile Include="Model.fs" />
     <Compile Include="GraphStructureAdapters.fs" />
     <Compile Include="GraphAcquistion.fs" />
-    <Compile Include="EdgeListGraphTools.fs" />
+    <Compile Include="GraphTools.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>

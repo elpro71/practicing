@@ -14,11 +14,14 @@ type GraphGenerators =
   static member G() =
       {   new Arbitrary<G>() with
             override x.Generator = 
-              gen {
-                  //return TestData.getDirtyGraph 0 |> G.create
-                  return TestData.makeGrid 10000 
-              }  }
-
+              Gen.choose(0,100) 
+              |> Gen.two 
+              |> Gen.map Edge 
+              |> Gen.sample 50 1000
+              |> Gen.constant
+              |> Gen.map DirtyG
+              |> Gen.map G.create
+      }
 
 [<Property(Arbitrary = [|typeof<GraphGenerators> |])>]
 let ``test cyclic transformation is noop`` expectedEdges =
