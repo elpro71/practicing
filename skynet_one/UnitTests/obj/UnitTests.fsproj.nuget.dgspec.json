@@ -1,0 +1,159 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\UnitTests\\UnitTests.fsproj": {}
+  },
+  "projects": {
+    "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
+        "projectName": "skynet_one",
+        "projectPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
+        "packagesPath": "C:\\Users\\lemon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lemon\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "target": "Package",
+              "version": "[5.0.0, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\UnitTests\\UnitTests.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\UnitTests\\UnitTests.fsproj",
+        "projectName": "UnitTests",
+        "projectPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\UnitTests\\UnitTests.fsproj",
+        "packagesPath": "C:\\Users\\lemon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\UnitTests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lemon\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {
+                "projectPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "target": "Package",
+              "version": "[5.0.0, )",
+              "generatePathProperty": true
+            },
+            "FsCheck": {
+              "target": "Package",
+              "version": "[2.14.4, )",
+              "generatePathProperty": true
+            },
+            "FsCheck.Xunit": {
+              "target": "Package",
+              "version": "[2.14.4, )",
+              "generatePathProperty": true
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.7.1, )",
+              "generatePathProperty": true
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.3.0, )",
+              "generatePathProperty": true
+            },
+            "unquote": {
+              "target": "Package",
+              "version": "[5.0.0, )",
+              "generatePathProperty": true
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.1, )",
+              "generatePathProperty": true
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.3, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,8 @@ open System
 open Shared
 open GraphModel 
 
+open System.Collections.Generic
+
 type Env = 
     | TestScenario0
     | TestScenario1 
@@ -17,31 +19,38 @@ let read (edgeCountReader:Reader<Env,int>) (edgeReader:Reader<Env, (int * int)>)
     Reader.bind readEdges edgeCountReader       
     |> Reader.map (List.map Edge >> DirtyG)
 
+let addTrace text x =
+    printfn "%A %s "  DateTime.Now text
+    x
+
 [<AutoOpen>]
 module TestData = 
 
     let makeGrid n =
-        let unfold queue = 
-            let updateQueue queue =
-                let getLastIndex queue = 
-                    match queue with 
-                    | { List = [] ; Last = None } -> -1
-                    | { Last = Some (_, y) } -> y 
-                    | { List = l } -> List.last l |> snd
-                let adds dest queue = 
-                    let last = getLastIndex queue
-                    queue |> Queue.enqueue (dest, last+1) |> Queue.enqueue (dest, last+2)
-                Queue.dequeue queue 
-                |> Option.map (fun (edge, q) -> edge, adds (snd edge) q)
-                |> Option.defaultWith (fun _ -> failwith "invalidLogic")                                
-            updateQueue queue |> Some 
+        let queue = { Queue = Queue([ (0, 1) ]) ; Last = Some (0, 2) }
+
+        let generate _ = 
+            let getLastIndex queue =  
+                match queue.Queue.Count, queue.Last with 
+                | _, Some x -> snd x
+                | 0, None -> -1
+                | _, _ -> 
+                    queue.Queue.ToArray().[queue.Queue.Count-1] |> snd
+            let updateQueue () =
+                let origin = queue.Dequeue () |> Option.defaultValue (0, 0)
+                let last = getLastIndex queue
+                queue.Enqueue (snd origin, last+1) |> ignore 
+                queue.Enqueue (snd origin, last+2) |> ignore
+                origin
+            updateQueue() 
+
         
-        let queue = { List = [ (0, 1) ] ; Last = Some ( 0, 2 ) }
-        Seq.unfold unfold queue
+        Seq.initInfinite generate 
         |> Seq.take n
         |> Seq.map Edge
         |> Seq.toList
         |> DirtyG
+        |> addTrace "DirtyG built"
         |> G.create
 
 
