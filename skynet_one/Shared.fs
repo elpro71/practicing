@@ -26,8 +26,10 @@ type QueueWithLast<'a> =
         if  this.Queue.Count = 0 then 
             None
         else
-            this.Queue.Dequeue() |> Some
-
+            let x = this.Queue.Dequeue() |> Some
+            if this.Queue.Count = 0 then 
+                this.Last <- None
+            x
     member this.GetLast() = this.Last
 
     static member Create (ele: 'a seq) =

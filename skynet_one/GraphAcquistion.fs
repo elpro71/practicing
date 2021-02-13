@@ -3,8 +3,6 @@ open System
 open Shared
 open GraphModel 
 
-open System.Collections.Generic
-
 type Env = 
     | TestScenario0
     | TestScenario1 
@@ -28,14 +26,14 @@ module TestData =
 
     let makeGrid nbrOfChildren n =
         let firstGen = [ 1 .. nbrOfChildren - 1 ] |> List.map (fun x -> 0, x)
-        let queue =  QueueWithLast.Create firstGen
+        let queue =  QueueWithLast.Create (firstGen)
         let generate _ = 
             let updateQueue () =
                 let origin = queue.Dequeue () |> Option.defaultValue (0, 0)
                 let last = match queue.GetLast() with 
                             | Some x -> snd x
                             | None -> -1
-                            
+
                 for child in [ last .. (last+nbrOfChildren) ] do
                     queue.Enqueue (snd origin, child) |> ignore                
                 origin
