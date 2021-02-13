@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {}
+    "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {}
   },
   "projects": {
-    "c:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {
+    "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
+        "projectUniqueName": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
         "projectName": "skynet_one",
-        "projectPath": "c:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
+        "projectPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
         "packagesPath": "C:\\Users\\lemon\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\obj\\",
+        "outputPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lemon\\AppData\\Roaming\\NuGet\\NuGet.Config"

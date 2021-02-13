@@ -26,21 +26,17 @@ let addTrace text x =
 [<AutoOpen>]
 module TestData = 
 
-    let makeGrid children n =
-        let firstGen = [ 1 .. children - 1 ] |> List.map (fun x -> 0, x)
-        let queue = { Queue = Queue(firstGen) ; Last = Some (0, children) }
-
+    let makeGrid nbrOfChildren n =
+        let firstGen = [ 1 .. nbrOfChildren - 1 ] |> List.map (fun x -> 0, x)
+        let queue =  QueueWithLast.Create firstGen
         let generate _ = 
-            let getLastIndex queue =  
-                match queue.Queue.Count, queue.Last with 
-                | _, Some x -> snd x
-                | 0, None -> -1
-                | _, _ -> 
-                    queue.Queue.ToArray().[queue.Queue.Count-1] |> snd
             let updateQueue () =
                 let origin = queue.Dequeue () |> Option.defaultValue (0, 0)
-                let last = getLastIndex queue
-                for child in [ last .. (last+children) ] do
+                let last = match queue.GetLast() with 
+                            | Some x -> snd x
+                            | None -> -1
+                            
+                for child in [ last .. (last+nbrOfChildren) ] do
                     queue.Enqueue (snd origin, child) |> ignore                
                 origin
             updateQueue() 

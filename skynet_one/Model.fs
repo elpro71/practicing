@@ -34,11 +34,11 @@ module G =
     let create : SanitizeEdges = cleanUpImp FreeForm
 
     let extractEdges p (G edges) = 
-        let ret tuple = fst tuple, snd tuple |> G
-        List.partition (fun (Edge (o, d)) -> p = o || p = d) edges |> ret
+        let children, remainingEdges = List.partition (fun (Edge (o, d)) -> p = o || p = d) edges
+        children, (G remainingEdges)
 
-    let without (Edge (a,b)) (G edges) = 
-        edges |> List.filter (fun (Edge (x, y)) -> x = a || x = b || y = a || y = b) |> G
+    let without (G edges) (Edge (a,b)) =         
+        edges |> List.filter (fun (Edge (x, y)) -> (x = a && y = b)  || (x = b && y = a)) |> G
 
 type NodeAdjacency = NodeAdjacency of int list
 module NodeAdjacency = let unwrap (NodeAdjacency x) = x

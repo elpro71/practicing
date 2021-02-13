@@ -52,27 +52,25 @@ let bfEdges g p =
             match sbuf with
             | Path (c::_) -> 
                 yield c
-                let (edges, g') = G.extractEdges p g
-                let children = List.collect (Edge.unwrap >> tupleToList) edges |> List.distinct                
+                let (edges, x) = G.extractEdges c.Node g
+                let children = List.collect (Edge.unwrap >> tupleToList) edges |> List.filter ((<>) c.Node) |> List.distinct                
                 let cpath = children |> List.map (PathResult.createChild c)
-                yield! bF (merge buf cpath) (beginOfq+1) g'
+                yield! bF (merge buf cpath) (beginOfq+1) x
             | _ -> yield! [] }
     bF (Path.create p) 0 g
 
 
-let shortestPath graph origin dest = 
-    let bfComputation =
-        bfEdges graph origin
-        |> Seq.pairwise
-
-    bfComputation
-
+let shortestPath origin dest graph = 
+    bfEdges graph origin
+    |> Seq.pairwise
+    |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
+    |> Seq.map (fun (x,y) -> Edge (x.Node, y.Node))
 
 let shortestPathx graph origin dest = 
     let bfComputation =
         bfEdges graph origin
         |> Seq.pairwise
-        |> Seq.takeWhile (fun t -> (fst t).Node = dest |> not)
+        |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
         |> Seq.map snd
         |> Seq.toList
 

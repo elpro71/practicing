@@ -10,9 +10,10 @@ let tupleToList (a, b) = [ a; b]
 
 type Reader<'environment,'a> = Reader of ('environment -> 'a)
 
-type QueueWithLast<'a> = 
-    { mutable Queue : Queue<'a>
-      mutable Last  : 'a option }
+type QueueWithLast<'a> =
+    private
+        { mutable Queue : Queue<'a>
+          mutable Last  : 'a option }
     with 
     member this.Enqueue a : unit = 
         match this.Last with 
@@ -22,18 +23,18 @@ type QueueWithLast<'a> =
             this.Last <- Some a
 
     member this.Dequeue () : 'a option = 
-        match this.Queue.Count, this.Last with 
-        | 0, None  -> None
-        | 0, Some x -> 
-               this.Last <- None  
-               Some x
-        | _ -> 
-            let res = this.Queue.Dequeue ()
-            if this.Queue.Count = 0 then 
-                this.Last |> Option.map this.Queue.Enqueue |> ignore
-                this.Last <- None
-            Some res
+        if  this.Queue.Count = 0 then 
+            None
+        else
+            this.Queue.Dequeue() |> Some
 
+    member this.GetLast() = this.Last
+
+    static member Create (ele: 'a seq) =
+        { Queue = Queue(ele) ; Last = Seq.tryLast ele }
+
+    static member CreateEmpty () =
+        { Queue = Queue() ; Last = None}
                         
     
 

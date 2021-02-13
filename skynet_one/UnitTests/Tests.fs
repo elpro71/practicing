@@ -1,6 +1,10 @@
-module Tests
+module Test.Graph
+
+
 
 open System
+open Shared
+
 open Xunit
 open FsCheck
 open FsCheck.Xunit
