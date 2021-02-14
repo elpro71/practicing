@@ -31,14 +31,25 @@ let nicePrint pr =
     |> List.iter (printfn "\tfrom %i")
 
 // best next move based on one computation iteration.
-let nextWithManyGateways graph agentSmith gateways =  
-    failwith "notImplemented"
 
-let next graph agentSmith gateway =         
+let computeImpactIfEdgeRemoved graph agentSmith gateway =
     let pathData = shortestPath agentSmith gateway graph
-    let edges = Path.collectAllEdgesOnPaths pathData gateway 
-    edges 
+    Path.collectAllEdgesOnPaths pathData gateway 
     |> Seq.map (fun e -> e, G.without graph e |> shortestPath agentSmith gateway)
+
+let nextWithManyGateways graph agentSmith gateways =  
+    let computeOnGateway gateway =
+        shortestPath agentSmith gateway graph
+    let gw = 
+        Seq.map (fun g -> {| Gateway = g ; Path = computeOnGateway g |}) gateways
+        |> Seq.groupBy (fun d -> Path.totalLength d.Gateway d.Path)
+        |> Seq.sortBy fst
+        |> Seq.tryHead 
+        |> Option.map snd
+    ()
+
+let nextEdge graph agentSmith gateway =         
+    computeImpactIfEdgeRemoved graph agentSmith gateway
     |> Seq.maxBy (fun (e, path) -> Path.totalLength gateway path)
     |> fst
 
@@ -81,7 +92,7 @@ let main argv =
           (1, 5)
           (7, 5) ] |> List.map Edge |> DirtyG |> G.create
 
-    let test = next grid 0 3
+    let test = nextEdge grid 0 3
     printfn "my choice : %A" test
     0
 

@@ -14,16 +14,22 @@ module PathResult =
     let sameNode { Node = p } { Node = q } = p = q            
 
 type Path = private Path of PathResult list
+
 module Path =
+
     let createEmpty () = Path []
+
     let create root = [ PathResult.createRoot root ] |> Path
+
     let getDetails (Path pathResults) node = pathResults |> List.tryFind (fun x -> x.Node = node)
+
     let totalLength target (Path pathResults) = 
         pathResults 
         |> List.tryLast 
         |> Option.map (fun p -> if p.Node = target then p.DistanceFromOrigin else System.Int32.MaxValue) 
         |> Option.defaultValue System.Int32.MaxValue    
-    let rec collectAllEdgesOnPaths (pathData:Path) node = 
+
+    let rec collectAllEdgesOnPaths pathData node = 
         seq { 
             let pathResult = getDetails pathData node        
             match pathResult with
@@ -35,23 +41,18 @@ module Path =
             | _ -> yield! []
         }
 
-
-
-    let merge (Path path) parent (children: int list) =
+    let merge (Path path) parent children =
         let wchildren = children |> List.map (PathResult.createChild parent) 
-        let (added, _, _) =  diffBy (fun n-> n.Node) path wchildren
-        let comp x y =
-            let selector x = x.Node
-            selector x = selector y
-        let untouchedAndUpdated = 
-            path |> List.map ( 
-                    fun pathElement -> 
-                        let sindex = List.tryFindIndex (comp pathElement) wchildren
-                        match sindex with 
-                        | Some index when pathElement.DistanceFromOrigin = wchildren.[index].DistanceFromOrigin ->
-                            PathResult.mergeParents pathElement wchildren.[index]
-                        | _ -> pathElement)        
-        untouchedAndUpdated  @ (Seq.toList added) |> Path
+        let (added, modified, _) =  diffBy (fun n-> n.Node) path wchildren
+
+        let updated = 
+            let choose pathElement = 
+                let comp x = PathResult.sameNode pathElement x                     
+                let upd index = PathResult.mergeParents pathElement wchildren.[index]
+                List.tryFindIndex comp wchildren
+                |> Option.map upd 
+            Seq.choose choose modified
+        updated |> Seq.append added |> Seq.toList |> Path
 
     let dequeue = function 
         | Path (parent::tail) ->  Some (parent, Path tail)
@@ -78,8 +79,3 @@ let shortestPath origin dest graph =
     |> Seq.map snd // unpairwise
     |> Seq.toList
     |> Path
-
-
-    
-
-
