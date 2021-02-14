@@ -39,7 +39,7 @@ let next graph agentSmith gateway =
     let edges = Path.collectAllEdgesOnPaths pathData gateway 
     edges 
     |> Seq.map (fun e -> e, G.without graph e |> shortestPath agentSmith gateway)
-    |> Seq.maxBy (fun (e, path) -> Path.totalLength path)
+    |> Seq.maxBy (fun (e, path) -> Path.totalLength gateway path)
     |> fst
 
 #if INTERACTIVE
@@ -75,14 +75,13 @@ let main argv =
     let grid = 
         [ (0, 1)
           (0, 2)
-          (0, 3)
-          (1, 5)
           (2, 3)
-          (3, 6) 
-          (3, 7)
+          (5, 2)
+          (6, 0)
+          (1, 5)
           (7, 5) ] |> List.map Edge |> DirtyG |> G.create
 
-    let test = next grid 0 5 
+    let test = next grid 0 3
     printfn "my choice : %A" test
     0
 

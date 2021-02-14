@@ -18,10 +18,10 @@ module Path =
     let createEmpty () = Path []
     let create root = [ PathResult.createRoot root ] |> Path
     let getDetails (Path pathResults) node = pathResults |> List.tryFind (fun x -> x.Node = node)
-    let totalLength (Path pathResults) = 
+    let totalLength target (Path pathResults) = 
         pathResults 
         |> List.tryLast 
-        |> Option.map (fun p -> p.DistanceFromOrigin) 
+        |> Option.map (fun p -> if p.Node = target then p.DistanceFromOrigin else System.Int32.MaxValue) 
         |> Option.defaultValue System.Int32.MaxValue    
     let rec collectAllEdgesOnPaths (pathData:Path) node = 
         seq { 
