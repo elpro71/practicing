@@ -7,7 +7,7 @@
     <Compile Include="Shared.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="GraphStructureAdapters.fs" />
-    <Compile Include="GraphAcquistion.fs" />
+    <Compile Include="GraphAcquisition.fs" />
     <Compile Include="GraphTools.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-module EdgeListTools
+module GraphTools
 
 open Shared
 open GraphModel
@@ -10,61 +10,56 @@ type PathResult =
 module PathResult =
     let createRoot n = { Node = n ; DistanceFromOrigin = 0 ; Parents = [] }
     let createChild { Node = p ; DistanceFromOrigin = n }  c = { Node = c ; DistanceFromOrigin = n+1;  Parents  = [p] }
-    let addParent { Node = parent ; } child = { child with Parents = child.Parents @ [parent] }
+    let mergeParents { Node = _; Parents = parents } child = { child with Parents = child.Parents @ parents }
     let sameNode { Node = p } { Node = q } = p = q            
 
 type Path = private Path of PathResult list
 module Path =
+    let createEmpty () = Path []
     let create root = [ PathResult.createRoot root ] |> Path
     let skip s (Path p) = List.skip s p |> Path
 
-let merge (Path path) children =
-    let reduce children k = 
-        let search = List.tryFindIndex (fun x -> x.Node = k.Node) children
-        match search with
-        | Some index when k.DistanceFromOrigin = children.[index].DistanceFromOrigin -> PathResult.addParent k children.[index]
-        | _ -> k
-    let reducedPath = path |> List.map (reduce children) 
-    let missingElements = 
-        children 
-        |> List.filter (fun c -> List.exists (PathResult.sameNode c) reducedPath |> not)
-    reducedPath @ missingElements |> Path
+    let merge (Path path) parent (children: int list) =
+        let wchildren = children |> List.map (PathResult.createChild parent) 
+        let (added, _, _) =  diffBy (fun n-> n.Node) path wchildren
+        let comp x y =
+            let selector x = x.Node
+            selector x = selector y
+        let untouchedAndUpdated = 
+            path |> List.map ( 
+                    fun pathElement -> 
+                        let sindex = List.tryFindIndex (comp pathElement) wchildren
+                        match sindex with 
+                        | Some index when pathElement.DistanceFromOrigin = wchildren.[index].DistanceFromOrigin ->
+                            PathResult.mergeParents pathElement wchildren.[index]
+                        | _ -> pathElement)        
+        untouchedAndUpdated  @ (Seq.toList added) |> Path
 
-let bf graph p =
-    let lst = Graph.unwrap graph
-    let rec bF buf beginOfq =
+    let dequeue = function 
+        | Path (parent::tail) ->  Some (parent, Path tail)
+        | _ -> None
+
+
+let bfEdges graph p =
+    let rec bF pathSolution g =
         seq {
-            let sbuf = Path.skip beginOfq buf
-            match sbuf with
-            | Path (c::_) -> 
-                yield c
-                let (NodeAdjacency children) = lst.[c.Node]
-                let cpath = children |> List.map (PathResult.createChild c)
-                yield! bF (merge buf cpath) (beginOfq+1)
-            | _ -> yield! [] }
-    bF (Path.create p) 0
-
-
-let bfEdges g p =
-    let rec bF buf beginOfq  g =
-        seq {
-            let sbuf = Path.skip beginOfq buf
-            match sbuf with
-            | Path (c::_) -> 
-                yield c
-                let (edges, x) = G.extractEdges c.Node g
-                let children = List.collect (Edge.unwrap >> tupleToList) edges |> List.filter ((<>) c.Node) |> List.distinct                
-                let cpath = children |> List.map (PathResult.createChild c)
-                yield! bF (merge buf cpath) (beginOfq+1) x
-            | _ -> yield! [] }
-    bF (Path.create p) 0 g
+            let someDequeued = Path.dequeue pathSolution
+            match someDequeued with
+            | Some (parent, remaingPath)  -> 
+                yield parent
+                let (children, gWithoutC) = G.extractEdges parent.Node g                        
+                yield! bF (Path.merge remaingPath parent children) gWithoutC
+            | None -> yield! [] }
+    bF (Path.create p) graph
 
 
 let shortestPath origin dest graph = 
     bfEdges graph origin
     |> Seq.pairwise
     |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
-    |> Seq.map (fun (x,y) -> Edge (x.Node, y.Node))
+    |> Seq.map snd // unpairwise
+    //    |> Seq.toList
+//    |> Seq.map (fun (x,y) -> Edge (x.Node, y.Node))
 
 let shortestPathx graph origin dest = 
     let bfComputation =

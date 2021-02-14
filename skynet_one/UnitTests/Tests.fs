@@ -1,18 +1,11 @@
 module Test.Graph
 
-
-
-open System
 open Shared
-
-open Xunit
 open FsCheck
 open FsCheck.Xunit
 open GraphModel
 open GraphAdapters
-open Acquisition
 open Swensen.Unquote
-
 
 type GraphGenerators =
   static member G() =
@@ -33,4 +26,20 @@ let ``test cyclic transformation is noop`` expectedEdges =
    let computedEdges = asAdjList graph
   
    computedEdges = expectedEdges
+
+
+
+[<Property(Arbitrary = [|typeof<GraphGenerators> |])>]
+let ``test remove edges from a graph gives right remaing graph`` graph =
+  let (G edges) = graph
+  let medianIndex = List.length  edges / 2
+  let median = List.item medianIndex edges
+  let (Edge x) = median 
+  let flipped = tupleFlip x |> Edge
+  let (G revisited) = G.without graph median
+
+  test <@ 
+          List.length revisited + 2 (*2 = both ways *) = List.length edges
+                                  &&
+          List.tryFind (flip List.contains [median;flipped]) revisited = None @>
 

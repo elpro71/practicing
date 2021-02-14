@@ -6,7 +6,19 @@ let konst x = (fun _ -> x)
 let (<|) f a = a |> f
 let flip f a b = f b a
 let tupleToList (a, b) = [ a; b]
+let tupleFlip (a, b) = b, a
 
+
+// assuming we can sort
+let diffBy selector olds news = 
+    let doesExist n x = 
+        let comp x y = selector x = selector y    
+        Seq.exists (comp x) n
+    
+    let updated = Seq.filter (doesExist news) olds
+    let added = Seq.filter (doesExist olds >> not) news
+    let removed = Seq.filter (doesExist news >> not) olds
+    (added, updated, removed)
 
 type Reader<'environment,'a> = Reader of ('environment -> 'a)
 
@@ -83,3 +95,5 @@ module Reader =
                                 let l = run env acc
                                 x::l)
         List.fold fold  (retn []) readers
+
+    // TODO add computation expression builder 

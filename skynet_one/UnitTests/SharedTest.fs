@@ -46,3 +46,17 @@ let ``dequeue a queue with more than one element and read last element`` () =
     q.Dequeue() |> ignore
     test <@ q.GetLast() = Some lastElement @>
 
+[<Fact>]
+let ``compute difference betweem old an new lists`` () = 
+    let a = [ 1; 2; 3; 4; ]
+    let b = [ 3; 2; 5; 6 ]    
+    let  (added, updated, removed) = diffBy id a b
+    
+    Assert.Equal<int seq>(seq { 5; 6}, added)
+    Assert.Equal<int seq>(seq { 2; 3}, updated)
+    Assert.Equal<int seq>(seq { 1; 4}, removed)
+    // test <@
+    //         let  (added, updated, removed) = diffBy id a b
+    //         added = seq { 5; 6 } && updated = seq { 2; 3 } && removed =  seq { 1; 4 } 
+    // @>
+
