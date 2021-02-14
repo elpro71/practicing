@@ -17,7 +17,25 @@ type Path = private Path of PathResult list
 module Path =
     let createEmpty () = Path []
     let create root = [ PathResult.createRoot root ] |> Path
-    let skip s (Path p) = List.skip s p |> Path
+    let getDetails (Path pathResults) node = pathResults |> List.tryFind (fun x -> x.Node = node)
+    let totalLength (Path pathResults) = 
+        pathResults 
+        |> List.tryLast 
+        |> Option.map (fun p -> p.DistanceFromOrigin) 
+        |> Option.defaultValue System.Int32.MaxValue    
+    let rec collectAllEdgesOnPaths (pathData:Path) node = 
+        seq { 
+            let pathResult = getDetails pathData node        
+            match pathResult with
+            | Some result -> 
+                let makeEdge p = Edge (p, node)
+                for p in result.Parents do
+                    yield makeEdge p
+                    yield! collectAllEdgesOnPaths pathData p                
+            | _ -> yield! []
+        }
+
+
 
     let merge (Path path) parent (children: int list) =
         let wchildren = children |> List.map (PathResult.createChild parent) 
@@ -58,27 +76,10 @@ let shortestPath origin dest graph =
     |> Seq.pairwise
     |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
     |> Seq.map snd // unpairwise
-    //    |> Seq.toList
-//    |> Seq.map (fun (x,y) -> Edge (x.Node, y.Node))
+    |> Seq.toList
+    |> Path
 
-let shortestPathx graph origin dest = 
-    let bfComputation =
-        bfEdges graph origin
-        |> Seq.pairwise
-        |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
-        |> Seq.map snd
-        |> Seq.toList
 
-    let getParent n = 
-        let checkParent { Node = node ; Parents = parents } = 
-            node = n
-        List.tryFind checkParent 
-
-    let aggregate some =
-        match some with
-        | Some { Node = n ; Parents = (p::_) } -> getParent p bfComputation |> Option.map (fun pp -> n, Some pp)
-        | _ -> None
-    List.unfold aggregate (getParent dest bfComputation)
     
 
 

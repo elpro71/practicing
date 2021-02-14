@@ -5,7 +5,7 @@ module X
 #load "Shared.fs"
 #load "Model.fs"
 #load "GraphTools.fs"
-#load "Acquisition.fs"
+#load "GraphAcquisition.fs"
 #load "GraphStructureAdapters.fs"
 #endif 
 
@@ -31,15 +31,21 @@ let nicePrint pr =
     |> List.iter (printfn "\tfrom %i")
 
 // best next move based on one computation iteration.
-let nextWithManyGateways graph agentSmith gateways =  
-    failwith "notImplemented"
+let next graph agentSmith gateways =  
+    let computePaths g = 
+        let search = shortestPath agentSmith 
+        Seq.map ((flip search g) >> Seq.toList >> (fun x -> x, List.length x)) gateways |> Seq.toList
 
-let next graph agentSmith gateway =         
-    let pathData = shortestPath agentSmith gateway graph
-    let edges = Path.collectAllEdgesOnPaths pathData gateway 
+    let paths = computePaths graph
+    let minLength = paths |> Seq.minBy snd |> snd
+    let edges = 
+        Seq.collect fst (paths 
+        |> Seq.filter (snd >> (=) minLength))
+        |> Seq.toList
+
     edges 
-    |> Seq.map (fun e -> e, G.without graph e |> shortestPath agentSmith gateway)
-    |> Seq.maxBy (fun (e, path) -> Path.totalLength path)
+    |> List.map (fun e -> e, G.without graph e |> computePaths |> Seq.minBy snd |> snd)
+    |> List.maxBy snd
     |> fst
 
 #if INTERACTIVE
@@ -48,17 +54,6 @@ let next graph agentSmith gateway =
 
 [<EntryPoint>]
 let main argv =
-
-    
-    let g = [ (0, 1)
-              (0, 2)
-              (1, 3)
-              (2, 3) ] |> List.map Edge |> DirtyG |> G.create
-
-    let result = shortestPath 0 3 g
-    let txt = sprintf "%A" result
-    //output.WriteLine txt
-
 
     printfn "%A" argv
 
@@ -72,18 +67,7 @@ let main argv =
     let e = asAdjList tr
     Console.WriteLine($"{DateTime.Now} : constructd back to edge list")
     
-    let grid = 
-        [ (0, 1)
-          (0, 2)
-          (0, 3)
-          (1, 5)
-          (2, 3)
-          (3, 6) 
-          (3, 7)
-          (7, 5) ] |> List.map Edge |> DirtyG |> G.create
-
-    let test = next grid 0 5 
-    printfn "my choice : %A" test
+    let test = next grid 0 [ 10 ] 
     0
 
 #endif
