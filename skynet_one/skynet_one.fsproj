@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="option.fs" />
     <Compile Include="Shared.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="GraphStructureAdapters.fs" />
