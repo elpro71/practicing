@@ -7,6 +7,8 @@ let (<|) f a = a |> f
 let flip f a b = f b a
 let tupleToList (a, b) = [ a; b]
 let tupleFlip (a, b) = b, a
+let curry f a b = f(a,b)
+let uncurry f (a,b) = f a b
 
 
 // assuming we can sort

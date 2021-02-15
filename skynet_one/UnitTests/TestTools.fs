@@ -23,7 +23,7 @@ type GraphTools(output : ITestOutputHelper) =
                   (2, 3)
                   (3, 5)
                   (3, 6)
-                  (5, 6) ] |> List.map Edge |> DirtyG |> G.create
+                  (5, 6) ] |> List.map Edge.create |> DirtyG |> G.create
 
         let result = shortestPath 0 6 g
         let txt = sprintf "%A" result

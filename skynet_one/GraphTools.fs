@@ -34,7 +34,7 @@ module Path =
             let pathResult = getDetails pathData node        
             match pathResult with
             | Some result -> 
-                let makeEdge p = Edge (p, node)
+                let makeEdge p = Edge.create (p, node)
                 for p in result.Parents do
                     yield makeEdge p
                     yield! collectAllEdgesOnPaths pathData p                
@@ -73,9 +73,12 @@ let bfEdges graph p =
 
 
 let shortestPath origin dest graph = 
-    bfEdges graph origin
-    |> Seq.pairwise
-    |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
-    |> Seq.map snd // unpairwise
-    |> Seq.toList
-    |> Path
+    let constr =
+        bfEdges graph origin
+        |> Seq.pairwise
+        |> Seq.takeWhile (fun t -> (fst t).Node <> dest)
+        |> Seq.map snd // unpairwise
+        |> Seq.toList
+    match List.tryLast constr with 
+    | Some pathR when pathR.Node = dest -> constr |> Path |> Some 
+    | _ -> None

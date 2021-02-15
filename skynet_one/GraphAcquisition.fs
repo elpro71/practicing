@@ -15,7 +15,7 @@ let read (edgeCountReader:Reader<Env,int>) (edgeReader:Reader<Env, (int * int)>)
         |> List.map (konst edgeReader)
         |> Reader.sequence
     Reader.bind readEdges edgeCountReader       
-    |> Reader.map (List.map Edge >> DirtyG)
+    |> Reader.map (List.map Edge.create >> DirtyG)
 
 let addTrace text x =
     printfn "%A %s "  DateTime.Now text
@@ -41,7 +41,7 @@ module TestData =
         
         Seq.initInfinite generate 
         |> Seq.take n
-        |> Seq.map Edge
+        |> Seq.map Edge.create
         |> Seq.toList
         |> DirtyG
         |> addTrace "DirtyG built"
@@ -56,7 +56,7 @@ module TestData =
     let getDirtyGraph x = 
         graphs
         |> List.item x 
-        |> List.map Edge
+        |> List.map Edge.create
         |> DirtyG
              
 let readNbrEdge = 

@@ -1,12 +1,15 @@
 module GraphModel
+open System
 open Shared
 
 open System.Runtime.CompilerServices
 [<assembly:InternalsVisibleTo("UnitTests")>]
 do ()
 
-type Edge = internal Edge of (int * int)
-module Edge = let unwrap (Edge c) = c
+type Edge = private Edge of (int * int)
+module Edge = 
+    let unwrap (Edge c) = c
+    let create (a:int, b:int) = Edge (Math.Min(a,b), Math.Max(a,b))
     
 type DirtyG = DirtyG of Edge list
 type GraphType = 
@@ -40,6 +43,8 @@ module G =
 
     let without (G edges) (Edge edge) =         
         edges |> List.filter (fun (Edge t) -> edge <> t && edge <> tupleFlip t) |> G
+
+    let unwrap (G edge) = edge
 
 type NodeAdjacency = NodeAdjacency of int list
 module NodeAdjacency = let unwrap (NodeAdjacency x) = x

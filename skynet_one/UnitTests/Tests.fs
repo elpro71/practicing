@@ -13,7 +13,7 @@ type GraphGenerators =
             override x.Generator = 
               Gen.choose(0,100) 
               |> Gen.two 
-              |> Gen.map Edge 
+              |> Gen.map Edge.create 
               |> Gen.sample 50 1000
               |> Gen.constant
               |> Gen.map DirtyG
@@ -34,8 +34,8 @@ let ``test remove edges from a graph gives right remaing graph`` graph =
   let (G edges) = graph
   let medianIndex = List.length  edges / 2
   let median = List.item medianIndex edges
-  let (Edge x) = median 
-  let flipped = tupleFlip x |> Edge
+  let x = Edge.unwrap median 
+  let flipped = tupleFlip x |> Edge.create
   let (G revisited) = G.without graph median
 
   test <@ 
