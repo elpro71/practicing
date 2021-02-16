@@ -77,9 +77,9 @@ let nextWithManyGateways graph agentSmith gateways =
             |> toOption
         return
             edgeByGateWayBestPath
-            |> Seq.minBy (fun res ->
+            |> Seq.maxBy (fun res ->
                     match res with
-                    | _, None -> Int32.MinValue
+                    | _, None -> Int32.MaxValue
                     | _, Some p -> Path.totalLength p.Gateway p.Path)
             |> fst                                                    
     }
