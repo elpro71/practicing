@@ -2,33 +2,64 @@
 namespace Test
 
 open Xunit
-open Shared
-open GraphTools
-
 open FsCheck
-open FsCheck.Xunit
-open GraphModel
-open GraphAdapters
 open Swensen.Unquote
 open Xunit.Abstractions
 
+open Common
+open GraphModel
+open GraphTools
+open PuzzleLogic
+
 type GraphTools(output : ITestOutputHelper) =
 
-    [<Fact>]  
-    let ``logtest`` () =
+    let g = [ (0, 1)
+              (0, 2)
+              (1, 3)
+              (2, 3)
+              (3, 5)
+              (3, 6)
+              (5, 6) ] |> List.map Edge.create |> DirtyG |> G.create
     
-        let g = [ (0, 1)
-                  (0, 2)
-                  (1, 3)
-                  (2, 3)
-                  (3, 5)
-                  (3, 6)
-                  (5, 6) ] |> List.map Edge.create |> DirtyG |> G.create
+    [<Fact>]  
+    let ``test short path simple - a solution exists``() =        
+        test <@ 
+                optional { 
+                    let! x= (shortestPath 5 1 g) 
+                    return x 
+                } |> Option.isSome   
+        @>
 
-        let result = shortestPath 0 6 g
-        let txt = sprintf "%A" result
-        output.WriteLine txt
+    [<Fact>]  
+    let ``test short path simple - a solution does not exist``() =
+        test <@ 
+                optional { 
+                    let! x= (shortestPath 5 7 g) 
+                    return x 
+                } |> Option.isSome |> not
+        @>
 
-        test <@ false @>
+    [<Fact>]  
+    let ``test short path positive -  first and last make sesnse``() =        
+        
+        let x = optional { 
+                    let! (Path items)= (shortestPath 2 5 g) 
+                    let! first = List.tryHead items
+                    let! last = List.tryLast items
+
+                    output.WriteLine($"{last}")
+                    return List.contains 2 first.Parents && last.Node = 5
+                }
+        test <@ 
+                x  = Option.Some true
+        @>
+
+    [<Fact>]  
+    let ``test computation multiple exits``() =        
+        test <@ PuzzleLogic.shortestPaths g 2 [ 5; 1 ] |> Seq.length = 2 @>
+
+
+
+
 
 

@@ -1,5 +1,9 @@
 module GraphTools
 
+open System.Runtime.CompilerServices
+[<assembly:InternalsVisibleTo("UnitTests")>]
+do ()
+
 open Shared
 open GraphModel
 type PathResult =
@@ -13,7 +17,7 @@ module PathResult =
     let mergeParents { Node = _; Parents = parents } child = { child with Parents = child.Parents @ parents }
     let sameNode { Node = p } { Node = q } = p = q            
 
-type Path = private Path of PathResult list
+type Path = internal Path of PathResult list
 
 module Path =
 
