@@ -59,6 +59,13 @@ type GraphTools(output : ITestOutputHelper) =
         test <@ PuzzleLogic.shortestPaths g 2 [ 5; 1 ] |> Seq.length = 2 @>
 
 
+    [<Fact>]  
+    let ``test multiple solution exits``() =        
+        test <@ 
+                match shortestPath  0 3 g with 
+                | None -> false //failwith "expected a solution"|> Seq.length = 2
+                | Some (Path p) -> (List.length p.[2].Parents) = 2
+        @>
 
 
 

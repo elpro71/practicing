@@ -45,18 +45,23 @@ module Path =
             | _ -> yield! []
         }
 
-    let merge (Path path) parent children =
+    let merge (Path path) parent children =        
         let wchildren = children |> List.map (PathResult.createChild parent) 
-        let (added, modified, _) =  diffBy (fun n-> n.Node) path wchildren
+        let (added, _, _) =  diffBy (fun n-> n.Node) path wchildren
+        let added = Seq.toList added
+        let update pathResult = 
+            let updateC = List.tryFind (PathResult.sameNode pathResult) wchildren
+            Option.map (fun updateC -> 
+                if updateC.DistanceFromOrigin = pathResult.DistanceFromOrigin then
+                    PathResult.mergeParents pathResult updateC
+                else  
+                    pathResult
+            ) updateC |> Option.defaultValue pathResult
 
-        let updated = 
-            let choose pathElement = 
-                let comp x = PathResult.sameNode pathElement x                     
-                let upd index = PathResult.mergeParents pathElement wchildren.[index]
-                List.tryFindIndex comp wchildren
-                |> Option.map upd 
-            Seq.choose choose modified
-        updated |> Seq.append added |> Seq.toList |> Path
+        path 
+            |> List.map update
+            |> (flip List.append added)
+            |> Path
 
     let dequeue = function 
         | Path (parent::tail) ->  Some (parent, Path tail)

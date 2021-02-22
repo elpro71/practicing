@@ -17,12 +17,13 @@ let shortestPaths graph agentSmith gateways =
     |> Seq.sortBy fst
     |> Seq.collect snd
 
-let computeMostDamagingEdgeOnPath graph path agentSmith gateway =
-    Path.collectAllEdgesOnPaths path gateway 
-    |> Seq.map (fun e -> e, G.without graph e |> shortestPath agentSmith gateway)
-    |> Seq.toList
+// let computeAllPathsWithEdgeExtracted graph path agentSmith gateway =
+//     Path.collectAllEdgesOnPaths path gateway 
+//     |> Seq.map (fun e -> e, G.without graph e |> shortestPath agentSmith gateway)
+//     |> Seq.toList
 
 let nextWithManyGateways graph agentSmith gateways =  
+    let tupleOneOf v (x, y) = v = x || v = y
 
     let selectBestGroup (solutions : seq<{| Gateway: int; Path: Path |}>)= 
         solutions
@@ -41,24 +42,28 @@ let nextWithManyGateways graph agentSmith gateways =
             paths 
             |> Seq.collect (fun x -> Path.collectAllEdgesOnPaths x.Path x.Gateway)
             |> Seq.distinct
-        let! edgeByGateWayBestPath =
-            allPathEdges 
-            |> Seq.map (fun edge -> edge, G.without graph edge 
-                                            |> computeOnGateways
-                                            |> Seq.tryHead)
-            |> Seq.toList 
-            |> toOption
-        return
-            edgeByGateWayBestPath
-            |> Seq.maxBy (fun res ->
-                    match res with
-                    | _, None -> Int32.MaxValue
-                    | _, Some p -> Path.totalLength p.Gateway p.Path)
-            |> fst                                                    
+        return allPathEdges
+        |> Seq.find (fun edge -> List.exists (fun gateway -> edge |> Edge.unwrap |> (tupleOneOf gateway)) gateways)
+        // let! edgeByGateWayBestPath =
+        //     allPathEdges 
+        //     |> Seq.map (fun edge -> edge, G.without graph edge 
+        //                                     |> computeOnGateways
+        //                                     |> Seq.tryHead)
+        //     |> Seq.toList 
+        //     |> toOption
+        // return
+        //     edgeByGateWayBestPath
+        //     |> Seq.maxBy (fun res ->
+        //             match res with
+        //             | _, None -> Int32.MaxValue
+        //             | _, Some p -> Path.totalLength p.Gateway p.Path)
+        //     |> fst                                                    
     }
     
-let nextEdge graph agentSmith gateway =         
-    let path = shortestPath agentSmith gateway graph
-    Option.map (fun p -> computeMostDamagingEdgeOnPath graph p agentSmith gateway
-                         |> Seq.maxBy (fun (e, path) -> Path.totalLength gateway p)
-                         |> fst)
+// let nextEdge graph agentSmith gateway =         
+//     let path = shortestPath agentSmith gateway graph
+//     Option.map (fun p -> computeAllPathsWithEdgeExtracted graph p agentSmith gateway
+//                          |> Seq.maxBy (fun (e, path) -> Path.totalLength gateway p)
+//                          |> fst)
+
+

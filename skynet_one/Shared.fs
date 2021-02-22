@@ -17,8 +17,8 @@ let diffBy selector olds news =
         let comp x y = selector x = selector y    
         Seq.exists (comp x) n
     
-    let updated = Seq.filter (doesExist news) olds
-    let added = Seq.filter (doesExist olds >> not) news
+    let updated = Seq.filter (doesExist news) olds 
+    let added = Seq.filter (doesExist olds >> not) news 
     let removed = Seq.filter (doesExist news >> not) olds
     (added, updated, removed)
 

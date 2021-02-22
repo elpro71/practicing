@@ -22,13 +22,14 @@ type TrySanitizeEdges = DirtyG -> Result<G, string>
 
 module G =
     let private cleanUpImp requestedType (DirtyG edges) =
-        let minimalFilter = List.map Edge.unwrap >> List.distinct >> List.map Edge
+        let minimalFilter = List.map Edge.unwrap >> List.map Edge
 
         match requestedType with
         | DAG -> edges |> minimalFilter |> G
         | FreeForm ->
             let reverse (Edge edge) = (snd edge, fst edge)|> Edge
-            edges @  (edges |> List.map reverse)
+            let edges' = edges |> List.distinct
+            edges' @ (edges' |> List.map reverse)
             |> minimalFilter
             |> List.filter (fun (Edge (x, y)) -> x<>y)
             |> List.sort

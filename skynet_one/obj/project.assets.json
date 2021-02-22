@@ -2,6 +2,20 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "FParsec/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.3.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/FParsec.dll": {},
+          "lib/netstandard2.0/FParsecCS.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FParsec.dll": {},
+          "lib/netstandard2.0/FParsecCS.dll": {}
+        }
+      },
       "FSharp.Core/5.0.0": {
         "type": "package",
         "compile": {
@@ -55,6 +69,29 @@
     }
   },
   "libraries": {
+    "FParsec/1.1.1": {
+      "sha512": "Wdjf/gCNLEwd+0nUCDh9jAIIcKGwfhRramySTnTcVVgNC6i4Vp5aJklUJJfvFkEZMYNZEDGcI8pCa36/TmwmSg==",
+      "type": "package",
+      "path": "fparsec/1.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fparsec.1.1.1.nupkg.sha512",
+        "fparsec.nuspec",
+        "lib/net45/FParsec.dll",
+        "lib/net45/FParsec.pdb",
+        "lib/net45/FParsec.xml",
+        "lib/net45/FParsecCS.dll",
+        "lib/net45/FParsecCS.pdb",
+        "lib/net45/FParsecCS.xml",
+        "lib/netstandard2.0/FParsec.dll",
+        "lib/netstandard2.0/FParsec.pdb",
+        "lib/netstandard2.0/FParsec.xml",
+        "lib/netstandard2.0/FParsecCS.dll",
+        "lib/netstandard2.0/FParsecCS.pdb",
+        "lib/netstandard2.0/FParsecCS.xml"
+      ]
+    },
     "FSharp.Core/5.0.0": {
       "sha512": "iHoYXA0VaSQUONGENB1aVafjDDZDZpwu39MtaRCTrmwFW/cTcK0b2yKNVYneFHJMc3ChtsSoM9lNtJ1dYXkHfA==",
       "type": "package",
@@ -85,11 +122,13 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "FParsec >= 1.1.1",
       "FSharp.Core >= 5.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lemon\\.nuget\\packages\\": {}
+    "C:\\Users\\lemon\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -100,13 +139,19 @@
       "packagesPath": "C:\\Users\\lemon\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\lemon\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\lemon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -120,6 +165,11 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "FParsec": {
+            "target": "Package",
+            "version": "[1.1.1, )",
+            "generatePathProperty": true
+          },
           "FSharp.Core": {
             "target": "Package",
             "version": "[5.0.0, )",
@@ -141,7 +191,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

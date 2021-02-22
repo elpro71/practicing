@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "dsIqfAsFeVVdKY0ef3HMyh0vxssghfdeDfKd9VmK3dRbKiJUJcx4SKGSIc05iqZCUvkvKgH5Ln1zhtFzbKSuPA==",
+  "dgSpecHash": "6Z3BLwIHzBU54OodmuPvn1mTId0YHoGYpJdFztKQcPhrRqU0+xFbw3Mwnzdm/pNLlLaLbr6FlD72WBWAJkjzKg==",
   "success": true,
   "projectFilePath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\skynet_one.fsproj",
   "expectedPackageFiles": [
+    "C:\\Users\\lemon\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
     "C:\\Users\\lemon\\.nuget\\packages\\fsharp.core\\5.0.0\\fsharp.core.5.0.0.nupkg.sha512"
   ],
   "logs": []

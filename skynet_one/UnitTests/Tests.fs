@@ -39,7 +39,7 @@ let ``test remove edges from a graph gives right remaing graph`` graph =
   let (G revisited) = G.without graph median
 
   test <@ 
-          List.length revisited + 2 (*2 = both ways *) = List.length edges
+          List.length revisited + 2 = List.length edges
                                   &&
           List.tryFind (flip List.contains [median;flipped]) revisited = None @>
 

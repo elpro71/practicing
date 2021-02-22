@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestResistabce.fs" />
     <Compile Include="option.fs" />
     <Compile Include="Shared.fs" />
     <Compile Include="Model.fs" />
@@ -12,5 +13,8 @@
     <Compile Include="GraphTools.fs" />
     <Compile Include="PuzzleLogic.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FParsec" Version="1.1.1" />
   </ItemGroup>
 </Project>
