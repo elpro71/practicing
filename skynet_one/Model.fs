@@ -47,6 +47,9 @@ module G =
 
     let unwrap (G edge) = edge
 
+    let select select (G edges) = 
+        List.filter select edges |> G
+
 type NodeAdjacency = NodeAdjacency of int list
 module NodeAdjacency = let unwrap (NodeAdjacency x) = x
 

@@ -7,6 +7,8 @@ let (<|) f a = a |> f
 let flip f a b = f b a
 let tupleToList (a, b) = [ a; b]
 let tupleFlip (a, b) = b, a
+let oneOfIs (a, b) x = x = a || x = b
+
 let curry f a b = f(a,b)
 let uncurry f (a,b) = f a b
 
@@ -18,9 +20,9 @@ let diffBy selector olds news =
         Seq.exists (comp x) n
     
     let updated = Seq.filter (doesExist news) olds 
-    let added = Seq.filter (doesExist olds >> not) news 
-    let removed = Seq.filter (doesExist news >> not) olds
-    (added, updated, removed)
+    let known = Seq.filter (doesExist olds >> not) news 
+    let added = Seq.filter (doesExist news >> not) olds
+    (known, updated, added)
 
 type Reader<'environment,'a> = Reader of ('environment -> 'a)
 

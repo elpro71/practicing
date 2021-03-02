@@ -91,3 +91,6 @@ let shortestPath origin dest graph =
     match List.tryLast constr with 
     | Some pathR when pathR.Node = dest -> constr |> Path |> Some 
     | _ -> None
+
+let computeFringe = bfEdges
+
