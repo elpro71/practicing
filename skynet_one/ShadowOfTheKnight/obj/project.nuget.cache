@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "BUxBWYLCIgzYL7+uyforr6dKcQDjeu8NVn4G8lDrDE7oelQVa0MbwO63FVEh+V7+KUIdM0hvuqDlxToHXJkVnA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lemon\\workspaces\\test-graph-puzzle\\skynet_one\\ShadowOfTheKnight\\ShadowOfTheKnight.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lemon\\.nuget\\packages\\fsharp.core\\5.0.0\\fsharp.core.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

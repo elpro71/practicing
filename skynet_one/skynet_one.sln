@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "skynet_one", "skynet_one.fs
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitTests", "UnitTests\UnitTests.fsproj", "{0E3FCDFB-C889-40BB-9846-96FA7E655A36}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ShadowOfTheKnight", "ShadowOfTheKnight\ShadowOfTheKnight.fsproj", "{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{0E3FCDFB-C889-40BB-9846-96FA7E655A36}.Release|x64.Build.0 = Release|Any CPU
 		{0E3FCDFB-C889-40BB-9846-96FA7E655A36}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E3FCDFB-C889-40BB-9846-96FA7E655A36}.Release|x86.Build.0 = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|x64.Build.0 = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Debug|x86.Build.0 = Debug|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x64.ActiveCfg = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x64.Build.0 = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x86.ActiveCfg = Release|Any CPU
+		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
