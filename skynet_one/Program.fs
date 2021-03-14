@@ -47,6 +47,15 @@ let selectNodesToGateways (G edges) gateways =
     |> List.groupBy fst
     |> List.map (fun (x, l) -> x, List.map snd l)
 
+
+let a = 10
+let b = 3
+let s = 100
+
+let soluce =
+    [ for x in 1 .. s do
+      for y in 1 .. s do if x * a + y * b = s then yield (x,y) ]
+
 let pickEdge graph smith gateways = 
     let graphWithoutGateways =
         G.select (fun edge -> 
@@ -80,6 +89,9 @@ let pickEdge graph smith gateways =
 
     Option.iter (fun edge -> eprintfn "\t\tfound emergency : %A"  edge) emergency
     Option.defaultWith (konst multiLinkedNode) emergency
+
+
+
 
 [<EntryPoint>]
 let main argv =
