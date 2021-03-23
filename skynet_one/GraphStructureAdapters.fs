@@ -12,7 +12,7 @@ let (|AsAdjGraph|) (G edges) =
                     else node)
                 graph
         update edge graph
-    List.fold folder (EmptyGraph (List.length edges)) edges
+    List.fold folder (Graph.EmptyGraph (List.length edges)) edges
 
 let (|AsAdjList|) graph =
     let makeEdgeList i l =

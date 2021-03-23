@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ShadowOfTheKnight", "ShadowOfTheKnight\ShadowOfTheKnight.fsproj", "{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "test-dynamuc", "test-dynamuc\test-dynamuc.fsproj", "{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x64.Build.0 = Release|Any CPU
 		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0C5EEDA-2E1C-4D2A-A17C-24286B736E30}.Release|x86.Build.0 = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|x64.Build.0 = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|x64.ActiveCfg = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|x64.Build.0 = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{27542DB8-2B9A-4AE4-8348-7210FAC31B8A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
