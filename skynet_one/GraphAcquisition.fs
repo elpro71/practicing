@@ -2,6 +2,7 @@ module Acquisition
 open System
 open Shared
 open GraphModel 
+open GraphModel.Common
 
 type Env = 
     | TestScenario0

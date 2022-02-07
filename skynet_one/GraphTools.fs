@@ -6,6 +6,8 @@ do ()
 
 open Shared
 open GraphModel
+open GraphModel.Common
+
 type PathResult =
     { Node : int 
       DistanceFromOrigin : int 

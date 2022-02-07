@@ -14,6 +14,7 @@ open GraphModel
 open GraphTools
 open Acquisition
 open GraphAdapters
+open GraphModel.Common
 
 module EdgeX =
     let oneNodeIs n edge = 
@@ -34,7 +35,7 @@ let nicePrint pr =
     pr.Parents
     |> List.iter (printfn "\tfrom %i")
 
-let printSize = G.unwrap >> List.length >> printfn "%d"
+//let printSize = G.unwrap >> List.length >> printfn "%d"
 
 let selectNodesToGateways (G edges) gateways = 
     edges 
@@ -57,12 +58,31 @@ let soluce =
       for y in 1 .. s do if x * a + y * b = s then yield (x,y) ]
 
 let pickEdge graph smith gateways = 
-    let graphWithoutGateways =
-        G.select (fun edge -> 
-            let t = Edge.unwrap edge
-            List.exists (oneOfIs t) gateways |> not            
-             ) graph
-    let fringe = computeFringe graphWithoutGateways smith |> Seq.toList
+    //let graphWithoutGateways =
+    //    G.select (fun edge -> 
+    //        let t = Edge.unwrap edge
+    //        List.exists (oneOfIs t) gateways |> not            
+    //         ) graph
+    //let fringe = computeFringe graphWithoutGateways smith |> Seq.toList
+
+    let computeEdgeCriticality (graph : G<Edge>) (gatewaysList  : int list) =
+        let edges  = G.unwrap graph
+
+        let gateways = Set gatewaysList
+        let x = 
+            edges 
+            |> List.groupBy (Edge.unwrap >> fst)
+            |> List.map (fun (key, nexts) -> 
+                key, nexts |> List.map (Edge.unwrap >> snd) |> Set |> Set.intersect gateways)
+
+        edges
+
+
+
+    let fringe = computeFringe graph smith |> Seq.toList
+
+    let edgesDegrees = computeEdgeCriticality graph gateways
+
     let p = Path fringe
     let gs = Set gateways
     let pickNodeLinkedToGateways pr = 

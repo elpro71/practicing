@@ -1,5 +1,6 @@
 module GraphAdapters 
 open GraphModel
+open GraphModel.Common
    
 let (|AsAdjGraph|) (G edges) =
     let folder graph edge = 
